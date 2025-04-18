@@ -1,0 +1,23 @@
+<h1>Chats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <% Chat.attribute_names.each do |attr| %>
+        <th><%= attr.titleize %></th>
+      <% end %>
+      <th>Show Button</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chats.each do |chat| %>
+      <tr>
+        <% Chat.attribute_names.each do |attr| %>
+          <td><%= chat.send(attr) %></td>
+        <% end %>
+        <td><%= link_to 'Show', chat_path(chat) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

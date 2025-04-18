@@ -1,0 +1,28 @@
+<h1>Message</h1>
+
+<p>
+  <strong>Chat ID</strong>
+  <%= @message.chat_id %> 
+</p>
+
+<p>
+  <strong>User ID</strong>
+  <%= @message.user_id %>
+</p>
+
+<p>
+  <strong>Body Message</strong>
+  <%= @message.body %>
+</p>
+
+<p>
+  <strong>Created At</strong>
+  <%= @message.created_at %>
+</p>
+
+<p>
+  <strong>Updated At</strong>
+  <%= @message.updated_at %>
+</p>
+
+<%= link_to 'Go back to listed messages', messages_path %>
