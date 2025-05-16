@@ -1,9 +1,11 @@
 class ChatsController < ApplicationController
+    before_action :set_chat, only: [:show, :edit, :update]
+
     def index
         @chats = Chat.all
     end
     def show
-        @chat = Chat.find(params[:id])
+        @messages = @chat.messages.includes(:user)
     end 
     def new
         @chat = Chat.new
@@ -17,7 +19,26 @@ class ChatsController < ApplicationController
         end
     end
 
+    def edit
+       
+    end
+
+    def update
+        if @chat.update chat_params
+            flash[:notice] =  'Chat updated successfully.'
+            redirect_to @chat
+        else
+            flash[:alert] = "#{@chat.errors.full_messages.join(", ")}"
+            redirect_to edit_chat_path(@chat)
+        end
+    end
+
     private
+
+    def set_chat
+        @chat = Chat.find(params[:id])
+    end
+
     def chat_params
         params.require(:chat).permit(:sender_id, :receiver_id)
     end

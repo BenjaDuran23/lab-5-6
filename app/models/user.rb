@@ -3,5 +3,9 @@ class User < ApplicationRecord
     validates :email, presence: true,  uniqueness: true
     def to_s
         "#{first_name} #{last_name}"
-      end
+    end
+
+    def all_chats
+      Chat.where("sender_id = ? OR receiver_id = ?", id, id)
+    end
 end

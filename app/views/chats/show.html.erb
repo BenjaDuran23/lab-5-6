@@ -1,12 +1,12 @@
 <h1>Chat</h1>
 
 <p>
-  <strong>Sender ID</strong>
+  <strong>INIT Sender ID</strong>
   <%= @chat.sender_id %>
 </p>
 
 <p>
-  <strong>Reciever ID</strong>
+  <strong>INIT Reciever ID</strong>
   <%= @chat.receiver_id %>
 </p>
 
@@ -20,4 +20,25 @@
   <%= @chat.updated_at %>
 </p>
 
+
+<h2>Actual Chat</h2>
+<h3> Sender => <%= @chat.sender.first_name %> <%= @chat.sender.last_name %></h3>
+<h3> Receiver => <%= @chat.receiver.first_name %> <%= @chat.receiver.last_name %></h3>
+
+<h2>Messages:</h2>
+<ul>
+  <% @messages.each do |message| %>
+    <li>
+      <%= message.body %>
+    </li>
+  <% end %>
+</ul>
+
+
+<p>
+<%= link_to 'Edit the chat settings', edit_chat_path(@chat) %>
+</p>
+
+<p>
 <%= link_to 'Go back to listed Chats', chats_path %>
+</p>

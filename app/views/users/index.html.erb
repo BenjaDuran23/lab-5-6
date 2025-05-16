@@ -8,7 +8,10 @@
       <% User.attribute_names.each do |attr| %>
         <th><%= attr.titleize %></th>
       <% end %>
+      <th>Messages Count</th>
       <th>Show Button</th>
+      <th>Edit Button</th>
+      
     </tr>
   </thead>
 
@@ -18,7 +21,9 @@
         <% User.attribute_names.each do |attr| %>
           <td><%= user.send(attr) %></td>
         <% end %>
+        <td><%= user.messages.count %></td>
         <td><%= link_to 'Show', user_path(user) %></td>
+         <td><%= link_to 'Edit', edit_user_path(user) %></td>
       </tr>
     <% end %>
   </tbody>

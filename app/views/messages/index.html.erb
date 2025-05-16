@@ -9,6 +9,7 @@
         <th><%= attr.titleize %></th>
       <% end %>
       <th>Show Button</th>
+      <th>Edit Button</th>
     </tr>
   </thead>
 
@@ -19,6 +20,7 @@
           <td><%= message.send(attr) %></td>
         <% end %>
         <td><%= link_to 'Show', message_path(message) %></td>
+        <td><%= link_to 'Edit', edit_message_path(message) %></td>
       </tr>
     <% end %>
   </tbody>

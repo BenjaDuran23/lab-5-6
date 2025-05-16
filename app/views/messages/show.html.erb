@@ -25,4 +25,23 @@
   <%= @message.updated_at %>
 </p>
 
+
+<p>
+  <strong>Chat Between:</strong>
+  <%= @chat.sender.first_name %> <%= @chat.sender.last_name %> and <%= @chat.receiver.first_name %> <%= @chat.receiver.last_name %>
+</p>
+<p>
+  <strong>In chat ID:</strong>
+  <%= @chat.id %>
+</p>
+
+
+
+
+<p>
+<%= link_to 'Edit the body of this message', edit_message_path(@message) %>
+</p>
+
+<p>
 <%= link_to 'Go back to listed messages', messages_path %>
+</p>

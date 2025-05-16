@@ -20,4 +20,31 @@
   <%= @user.updated_at %>
 </p>
 
+
+<h2>Chats (ID):</h2>
+<ul>
+  <% @chat_ids.each do |chat_id| %>
+    <li>Chat ID: <%= chat_id %></li>
+  <% end %>
+</ul>
+
+<h2>Messages sent:</h2>
+<ul>
+  <% @messages.each do |msg| %>
+    <li>
+      Chat ID: <%= msg.chat_id %> - <%= msg.body %> - <small><%= msg.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+    </li>
+  <% end %>
+</ul>
+
+
+
+
+
+<p>
+<%= link_to 'Edit the info of this user', edit_user_path(@user) %>
+</p>
+
+<p>
 <%= link_to 'Go back to listed users', users_path %>
+</p>
