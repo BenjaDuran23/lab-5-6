@@ -1,27 +1,36 @@
-<h1>Messages</h1>
+<%= render 'layouts/navegation' %>
 
-<%= link_to 'Add New Message', new_message_path, class: 'button' %>
+<div class="container mt-4">
+  <h1 class="mb-4">My Messages</h1>
 
-<table>
-  <thead>
-    <tr>
-      <% Message.attribute_names.each do |attr| %>
-        <th><%= attr.titleize %></th>
+  <% if @messages.any? %>
+    <div class="row">
+      <% @messages.each do |message| %>
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <p class="card-text">
+                <strong>Message:</strong> <%= message.body %>
+              </p>
+              <p class="text-muted mb-1">
+                <strong>Sent at:</strong> <%= message.created_at.strftime("%Y-%m-%d %H:%M") %>
+              </p>
+              <p class="text-muted">
+                <strong>Chat with:</strong>
+                <% other_user = (message.chat.sender == current_user) ? message.chat.receiver : message.chat.sender %>
+                <%= other_user.first_name %> <%= other_user.last_name %>
+              </p>
+              <div class="btn-group mt-2" role="group">
+                <%= link_to 'Continue Chat', chat_path(message.chat_id), class: 'btn btn-outline-success btn-sm' %>
+                <%= link_to 'Edit this Message', edit_message_path(message), class: 'btn btn-outline-secondary btn-sm' %>
+                <%= link_to 'Delete this Message', message_path(message), data: { turbo_method: :delete, turbo_confirm: "Are you sure about that?"}, class: 'btn btn-outline-danger btn-sm' %>
+              </div>
+            </div>
+          </div>
+        </div>
       <% end %>
-      <th>Show Button</th>
-      <th>Edit Button</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @messages.each do |message| %>
-      <tr>
-        <% Message.attribute_names.each do |attr| %>
-          <td><%= message.send(attr) %></td>
-        <% end %>
-        <td><%= link_to 'Show', message_path(message) %></td>
-        <td><%= link_to 'Edit', edit_message_path(message) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    </div>
+  <% else %>
+    <p class="text-muted">You haven't sent any messages yet.</p>
+  <% end %>
+</div>

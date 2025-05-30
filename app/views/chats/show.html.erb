@@ -1,44 +1,43 @@
-<h1>Chat</h1>
+<%= render 'layouts/navegation' %>
 
-<p>
-  <strong>INIT Sender ID</strong>
-  <%= @chat.sender_id %>
-</p>
+<div class="container mt-4">
 
-<p>
-  <strong>INIT Reciever ID</strong>
-  <%= @chat.receiver_id %>
-</p>
+  <h1>Chat between <%= @chat.sender.first_name %> and <%= @chat.receiver.first_name %></h1>
+  <p><small>Created at: <%= @chat.created_at.strftime("%Y-%m-%d %H:%M") %></small></p>
 
-<p>
-  <strong>Created At</strong>
-  <%= @chat.created_at %>
-</p>
+  <div class="card mb-4" style="max-height: 400px; overflow-y: auto;">
+    <ul class="list-group list-group-flush">
+      <% @messages.each do |message| %>
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div>
+            <strong>
+              <%= message.user == current_user ? "You" : "#{message.user.first_name} #{message.user.last_name}" %>
+            </strong>
+            <small class="text-muted ms-2"><%= message.created_at.strftime("%Y-%m-%d %H:%M") %></small>
+            <p class="mb-1"><%= message.body %></p>
+          </div>
 
-<p>
-  <strong>Updated At</strong>
-  <%= @chat.updated_at %>
-</p>
+          <% if message.user == current_user %>
+            <div class="btn-group btn-group-sm">
+              <%= link_to 'Edit', edit_message_path(message), class: "btn btn-outline-secondary" %>
+              <%= link_to 'Delete', message_path(message), method: :delete, data: { confirm: "Are you sure you want to delete this message?" }, class: "btn btn-outline-danger" %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
-
-<h2>Actual Chat</h2>
-<h3> Sender => <%= @chat.sender.first_name %> <%= @chat.sender.last_name %></h3>
-<h3> Receiver => <%= @chat.receiver.first_name %> <%= @chat.receiver.last_name %></h3>
-
-<h2>Messages:</h2>
-<ul>
-  <% @messages.each do |message| %>
-    <li>
-      <%= message.body %>
-    </li>
+  <h3>Send a new message</h3>
+  <%= form_with model: [@chat, Message.new], local: true do |f| %>
+    <div class="mb-3">
+      <%= f.text_area :body, class: "form-control", rows: 3, placeholder: "Write your message here..." %>
+    </div>
+    <%= f.submit "Send", class: "btn btn-primary" %>
   <% end %>
-</ul>
 
+  <div class="mt-4  text-center">
+    <%= link_to "Back to My Chats", chats_path, class: "btn btn-outline-primary" %>
+  </div>
 
-<p>
-<%= link_to 'Edit the chat settings', edit_chat_path(@chat) %>
-</p>
-
-<p>
-<%= link_to 'Go back to listed Chats', chats_path %>
-</p>
+</div>

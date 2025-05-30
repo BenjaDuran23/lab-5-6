@@ -1,5 +1,9 @@
 class User < ApplicationRecord 
-    has_many :messages
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+    has_many :messages, dependent: :destroy
     validates :email, presence: true,  uniqueness: true
     def to_s
         "#{first_name} #{last_name}"

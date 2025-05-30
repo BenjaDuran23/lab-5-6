@@ -1,10 +1,12 @@
 class  UsersController < ApplicationController
+    before_action :authenticate_user!, except: [:index]
     before_action :set_user, only: [:show, :edit, :update]
     def index
         @users = User.all
     end
     def show
         @chat_ids = @user.all_chats.pluck(:id)
+        @chats = Chat.where("(sender_id = :current OR receiver_id = :current) AND (sender_id = :other OR receiver_id = :other)",current: current_user.id, other: @user.id  )
         @messages = @user.messages 
     end 
     def new
@@ -30,6 +32,14 @@ class  UsersController < ApplicationController
         else
             flash[:alert] = "#{@user.errors.full_messages.join(", ")}"
             redirect_to edit_user_path(@user)
+        end
+    end
+
+    def destroy
+        if current_user.destroy
+            redirect_to root_path, notice: "Your account has been successfully deleted."
+        else
+            redirect_to show_user_path(current_user), alert: "Something went wrong. Please try again."
         end
     end
 

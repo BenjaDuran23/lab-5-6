@@ -1,17 +1,11 @@
 <%= form_with model: @chat do |f| %>
-  
-    <div class="field">
-      <%= f.label :sender_id %>
-      <%= f.collection_select :sender_id, User.all, :id, :to_s, prompt: "Select Sender" %>
-    </div>
-  
-    <div class="field">
-      <%= f.label :receiver_id %>
-      <%= f.collection_select :receiver_id, User.all, :id, :to_s, prompt: "Select Receiver" %>
-    </div>
-  
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
-  
+  <div class="mb-3">
+    <%= f.label :receiver_id, "Select User to Chat With", class: "form-label" %>
+    <%= f.collection_select :receiver_id, User.where.not(id: current_user.id), :id, :first_name, { prompt: "Choose a user" }, { class: "form-select" } %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.submit "Start Chat", class: "btn btn-primary" %>
+    <%= link_to "Back to Chats", chats_path, class: "btn btn-secondary ms-2" %>
+  </div>
+<% end %>
